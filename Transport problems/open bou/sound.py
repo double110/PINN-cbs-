@@ -150,4 +150,4 @@ for step in range(2000):
 
 torch.save(Tmodel.state_dict(), './Tmodel.pth')
 
-sound=Sound(model,model2)
+

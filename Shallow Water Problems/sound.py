@@ -195,4 +195,4 @@ torch.save(Umodel.state_dict(), './Umodel.pth')
 torch.save(Vmodel.state_dict(), './Vmodel.pth')
 torch.save(Pmodel.state_dict(), './Pmodel.pth')
 
-sound=Sound(model,model2)
+

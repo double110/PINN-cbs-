@@ -21,7 +21,10 @@ from loss import dP_loss
 from loss import U_loss
 from loss import V_loss
 
-
+torch.set_default_tensor_type(torch.FloatTensor)
+#torch.set_default_tensor_type(torch.DoubleTensor)
+torch.backends.cuda.matmul.allow_tf32 = False  # 禁止矩阵乘法使用tf32
+torch.backends.cudnn.allow_tf32 = False        # 禁止卷积使用tf32
 torch.set_printoptions(8)
 
 #让我们检查一下 torch.cuda是否可用，否则我们继续使用CPU

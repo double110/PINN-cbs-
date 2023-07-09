@@ -40,8 +40,8 @@ def dUV_loss(Umodel,Vmodel,Pmodel,x,y,t,dt):
         dUa=dt*(-duvUdxy+dt/2*ukduvU+dduddxxyy)
         dUc=-dt*(-duvUdxy-dt/2*ukduvU+dduddxxyy)
         dduvUdxy,dukduvU,ddduddxxyy=gradients(duvUdxy,x),gradients(ukduvU,x),gradients(dduddxxyy,x)
-        dUadx=dt*(-dduvUdxy+dt/2*dukduvU+dduddxxyy)
-        dUcdx=-dt*(-dduvUdxy-dt/2*dukduvU+dduddxxyy)
+        dUadx=dt*(-dduvUdxy+dt/2*dukduvU+ddduddxxyy)
+        dUcdx=-dt*(-dduvUdxy-dt/2*dukduvU+ddduddxxyy)
 
     #u*d(duVdx+dvVdy)/dx v*d(duVdx+dvVdy)/dy
     uddvVddyx=ub*(2*dvdx*dvdy+2*vb*ddvddxy)
@@ -56,8 +56,8 @@ def dUV_loss(Umodel,Vmodel,Pmodel,x,y,t,dt):
         dVa=dt*(-duvVdxy+dt/2*ukduvV+ddvddxxyy)
         dVc=-dt*(-duvVdxy-dt/2*ukduvV+ddvddxxyy)
         dduvVdxy,dukduvV,dddvddxxyy=gradients(duvVdxy,y),gradients(ukduvV,y),gradients(ddvddxxyy,y)
-        dVady=dt*(-dduvVdxy+dt/2*dukduvV+ddvddxxyy)
-        dVcdy=-dt*(-dduvVdxy-dt/2*dukduvV+ddvddxxyy)
+        dVady=dt*(-dduvVdxy+dt/2*dukduvV+dddvddxxyy)
+        dVcdy=-dt*(-dduvVdxy-dt/2*dukduvV+dddvddxxyy)
     
     with torch.no_grad():
         dUdx=dudx

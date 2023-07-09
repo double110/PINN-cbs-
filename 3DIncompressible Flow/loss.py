@@ -55,8 +55,8 @@ def dUVW_loss(Umodel,Vmodel,Wmodel,Pmodel,x,y,z,t,dt):
         dUa=dt*(-duvwUdxyz+dt/2*ukduvwU+ddUddxxyyzz)
         dUc=-dt*(-duvwUdxyz-dt/2*ukduvwU+ddUddxxyyzz)
         dduvwUdxyz,dukduvwU,ddduddxxyyzz=gradients(duvwUdxyz,x),gradients(ukduvwU,x),gradients(ddUddxxyyzz,x)
-        dUadx=dt*(-dduvwUdxyz+dt/2*dukduvwU+ddUddxxyyzz)
-        dUcdx=-dt*(-dduvwUdxyz-dt/2*dukduvwU+ddUddxxyyzz)
+        dUadx=dt*(-dduvwUdxyz+dt/2*dukduvwU+dddUddxxyyzz)
+        dUcdx=-dt*(-dduvwUdxyz-dt/2*dukduvwU+dddUddxxyyzz)
 
     #u*d(duVdx+dvVdy+dwVdz)/dx v*d(duVdx+dvVdy+dwVdz)/dy w*d(duVdx+dvVdy+dwVdz)/dz
     udduVddxx=ub*(ddvddxx*ub+dvdx*dudx+dvdx*dudx+vb*dduddxx)
@@ -79,8 +79,8 @@ def dUVW_loss(Umodel,Vmodel,Wmodel,Pmodel,x,y,z,t,dt):
         dVa=dt*(-duvwVdxyz+dt/2*ukduvwV+ddVddxxyyzz)
         dVc=-dt*(-duvwVdxyz-dt/2*ukduvwV+ddVddxxyyzz)
         dduvwVdxyz,dukduvwV,dddVddxxyyzz=gradients(duvwVdxyz,y),gradients(ukduvwV,y),gradients(ddVddxxyyzz,y)
-        dVady=dt*(-dduvwVdxyz+dt/2*dukduvwV+ddVddxxyyzz)
-        dVcdy=-dt*(-dduvwVdxyz-dt/2*dukduvwV+ddVddxxyyzz)
+        dVady=dt*(-dduvwVdxyz+dt/2*dukduvwV+dddVddxxyyzz)
+        dVcdy=-dt*(-dduvwVdxyz-dt/2*dukduvwV+dddVddxxyyzz)
 
     #u*d(duWdx+dvWdy+dwWdz)/dx v*d(duWdx+dvWdy+dwWdz)/dy w*d(duWdx+dvWdy+dwWdz)/dz
     udduWddxx=ub*(ddwddxx*ub+dwdx*dudx+dwdx*dudx+wb*dduddxx)
@@ -103,8 +103,8 @@ def dUVW_loss(Umodel,Vmodel,Wmodel,Pmodel,x,y,z,t,dt):
         dWa=dt*(-duvwWdxyz+dt/2*ukduvwW+ddWddxxyyzz)
         dWc=-dt*(-duvwWdxyz-dt/2*ukduvwW+ddWddxxyyzz)
         dduvwWdxyz,dukduvwW,dddWddxxyyzz=gradients(duvwWdxyz,z),gradients(ukduvwW,z),gradients(ddWddxxyyzz,z)
-        dWadz=dt*(-dduvwWdxyz+dt/2*dukduvwW+ddWddxxyyzz)
-        dWcdz=-dt*(-dduvwWdxyz-dt/2*dukduvwW+ddWddxxyyzz)
+        dWadz=dt*(-dduvwWdxyz+dt/2*dukduvwW+dddWddxxyyzz)
+        dWcdz=-dt*(-dduvwWdxyz-dt/2*dukduvwW+dddWddxxyyzz)
     
     with torch.no_grad():
         dUdx=dudx

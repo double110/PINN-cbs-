@@ -89,7 +89,7 @@ def P_loss(Pmodel,x,y,t,dt,p1,p0,dUVadxy,dUVcdxy,ddpdd):
     l2=loss2(dUVadxy/dt*2,ddpdda)*(dt**2/4)
     #l3=loss2(dUVcdxy/dt*2,-ddpddc)*(dt**2/4)
     #l3=loss3(p0,dpc+p0)/(dt**2)
-    return l1+l2
+    return l1,l2
 
 def dP_loss(Pmodel,x,y,t,dt):
     pa=Pmodel(x,y,t+dt)
@@ -110,7 +110,7 @@ def U_loss(Umodel,x,y,t,dt,u1,u0,p1,dUa,dUc,dPdxa,dPdxc,ukddPddx):
     l1=loss1(ub,u0)/(dt**2)*(1e+2)*0.3
     l2=loss2(ua,dUa+u0)/(dt**2)*(1e+2)
     #l3=loss3(uc,dUc+u0)/(dt**2)*(1e+2)
-    return l1+l2
+    return l1,l2
 
 def V_loss(Vmodel,x,y,t,dt,v1,v0,p1,dVa,dVc,dPdya,dPdyc,ukddPddy):
 
@@ -123,4 +123,4 @@ def V_loss(Vmodel,x,y,t,dt,v1,v0,p1,dVa,dVc,dPdya,dPdyc,ukddPddy):
     l1=loss1(vb,v0)/(dt**2)*(1e+2)*0.3
     l2=loss2(va,dVa+v0)/(dt**2)*(1e+2)
     #l3=loss3(vc,dVc+v0)/(dt**2)*(1e+2)
-    return l1+l2
+    return l1,l2

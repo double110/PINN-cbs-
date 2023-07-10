@@ -43,6 +43,9 @@ options ={ # defalt
     'T':0.5,
     'dt':0.025,
     }
+path2 = r'est2-16.txt'
+file2 = open(path2,'w')
+
 
 #模型
 Umodel = UDate().to(device)
@@ -166,22 +169,22 @@ for step in range(10000):
     #step2
     dUVadxy=dUdx+dVdy+(dUadx+dVady)/2
     dUVcdxy=dUdx+dVdy+(dUcdx+dVcdy)/2
-    for i in range(10):
-        optP.zero_grad()
-        lsum=0
-        for k in range(K):
-            #with autocast():
-            l=P_loss(Pmodel,x[k,...],y[k,...],t[k,...],dt,pb[k,...],p0[k,...],dUVadxy[k,...],dUVcdxy[k,...],ddpdd[k,...])
-            with torch.no_grad():
-                lsum=lsum+l
-            l.backward()
-        lsum=lsum/K
-        optP.step()
-    #for i in range(80):
+    #for i in range(40):
     #    optP.zero_grad()
-    #    l=P_loss(Pmodel,x,y,t,dt,pb,p0,dUVadxy,dUVcdxy,ddpdd)
-    #    l.backward()
+    #    lsum=0
+    #    for k in range(K):
+            #with autocast():
+    #        l=P_loss(Pmodel,x[k,...],y[k,...],t[k,...],dt,pb[k,...],p0[k,...],dUVadxy[k,...],dUVcdxy[k,...],ddpdd[k,...])
+    #        with torch.no_grad():
+    #            lsum=lsum+l
+    #        l.backward()
+    #    lsum=lsum/K
     #    optP.step()
+    for i in range(40):
+        optP.zero_grad()
+        lp1,lp2=P_loss(Pmodel,x,y,t,dt,pb,p0,dUVadxy,dUVcdxy,ddpdd)
+        (lp1+lp2).backward()
+        optP.step()
 
     dpdxa,dpdya,dpdxc,dpdyc=torch.zeros(x.shape,device=device),torch.zeros(x.shape,device=device),torch.zeros(x.shape,device=device),torch.zeros(x.shape,device=device)
     #for k in range(K):
@@ -207,8 +210,8 @@ for step in range(10000):
     #    optU.step()
     for i in range(40):
         optU.zero_grad()
-        l=U_loss(Umodel,x,y,t,dt,ub,u0,pb,dUa,dUc,dpdxa,dpdxc,ukddpddx)
-        l.backward()
+        lu1,lu2=U_loss(Umodel,x,y,t,dt,ub,u0,pb,dUa,dUc,dpdxa,dpdxc,ukddpddx)
+        (lu1+lu2).backward()
         optU.step()
 
     #for i in range(80):
@@ -223,10 +226,27 @@ for step in range(10000):
     #    optV.step()
     for i in range(40):
         optV.zero_grad()
-        l=V_loss(Vmodel,x,y,t,dt,vb,v0,pb,dVa,dVc,dpdya,dpdyc,ukddpddy)
-        l.backward()
+        lv1,lv2=V_loss(Vmodel,x,y,t,dt,vb,v0,pb,dVa,dVc,dpdya,dpdyc,ukddpddy)
+        (lv1+lv2).backward()
         optV.step()
 
+    ##end
+    if (step%1)==0:
+        print(f"step: {step} ")
+        print(f"lp1: {lp1} ")
+        print(f"lp2: {lp2} ")
+        print(f"lu1: {lu1} ")
+        print(f"lu2: {lu2} ")
+        print(f"lv1: {lv1} ")
+        print(f"lv2: {lv2} \n")
+        file2.write(f'{step}'+'\n')
+        file2.write(f'{lp1}'+'\n')
+        file2.write(f'{lp2}'+'\n')
+        file2.write(f'{lu1}'+'\n')
+        file2.write(f'{lu2}'+'\n')
+        file2.write(f'{lv1}'+'\n')
+        file2.write(f'{lv2}'+'\n\n')
+    
     if step==-1:
         break
 

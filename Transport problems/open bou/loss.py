@@ -63,7 +63,7 @@ def T_loss(Tmodel,x,y,t,dt,k,T1,T0,dTa,dTc,h,ha,hc,ddhTdd,dhdx,dhdy):
         #dTa=dTa+dt*k*ddhTdd
         #dTc=dTc-dt*k*ddhTdd
 
-    l1=loss1(Tb,T0)/(dt**2)*10
+    l1=loss1(Tb,T0)/(dt**2)*20
     l2=loss2(Ta,(dTa+h*T0)/ha)/(dt**2)
     l3=loss3(Tc,(dTc+h*T0)/hc)/(dt**2)
     return l1+l2+l3
